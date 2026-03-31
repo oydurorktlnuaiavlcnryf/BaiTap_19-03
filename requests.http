@@ -1,0 +1,64 @@
+### CẤU HÌNH BIẾN
+@baseUrl = http://localhost:5000
+
+# Bạn nhớ cài extension "REST Client" trên VSCode.
+# Sau đó bấm nút "Send Request" hiển thị mờ mờ trên đầu mỗi endpoint để gọi API.
+
+### 1. Tạo một sản phẩm mới (Tự động sinh ra Inventory)
+# @name createProduct
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+    "name": "Laptop Gaming ASUS",
+    "price": 25000000
+}
+
+### >>> Lấy ra ID của sản phẩm vừa tạo trong kết quả trả về, thay vào biến `product_id` dưới đây:
+
+### => THAY ID VÀO ĐÂY:
+@product_id = 64xxxxxxxxxxxxxx
+
+
+### 2. Get All Inventories (Có join với Product)
+GET {{baseUrl}}/inventories
+
+
+### 3. Add Stock (POST) - Tăng stock lên 100
+POST {{baseUrl}}/inventories/add_stock
+Content-Type: application/json
+
+{
+    "product": "{{product_id}}",
+    "quantity": 100
+}
+
+
+### 4. Remove Stock (POST) - Giảm stock đi 20 (còn 80)
+POST {{baseUrl}}/inventories/remove_stock
+Content-Type: application/json
+
+{
+    "product": "{{product_id}}",
+    "quantity": 20
+}
+
+
+### 5. Reservation (POST) - Giữ hàng 30 (Stock giảm 30 còn 50, Reserved tăng lên 30)
+POST {{baseUrl}}/inventories/reservation
+Content-Type: application/json
+
+{
+    "product": "{{product_id}}",
+    "quantity": 30
+}
+
+
+### 6. Sold (POST) - Xác nhận bán 10 từ reserved (Reserved giảm 10 còn 20, SoldCount tăng 10)
+POST {{baseUrl}}/inventories/sold
+Content-Type: application/json
+
+{
+    "product": "{{product_id}}",
+    "quantity": 10
+}
